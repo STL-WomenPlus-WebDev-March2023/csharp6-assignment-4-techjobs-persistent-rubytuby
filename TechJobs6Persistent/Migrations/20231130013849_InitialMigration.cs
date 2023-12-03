@@ -18,9 +18,9 @@ namespace TechJobs6Persistent.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: true)
+                    Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Location = table.Column<string>(type: "longtext", nullable: true)
+                    Location = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -35,9 +35,7 @@ namespace TechJobs6Persistent.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Description = table.Column<string>(type: "longtext", nullable: true)
+                    SkillName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -52,9 +50,9 @@ namespace TechJobs6Persistent.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: true)
+                    Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    EmployerId = table.Column<int>(type: "int", nullable: true)
+                    EmployerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,12 +61,13 @@ namespace TechJobs6Persistent.Migrations
                         name: "FK_Jobs_Employers_EmployerId",
                         column: x => x.EmployerId,
                         principalTable: "Employers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "JobSkills",
+                name: "JobSkill",
                 columns: table => new
                 {
                     JobsId = table.Column<int>(type: "int", nullable: false),
@@ -76,15 +75,15 @@ namespace TechJobs6Persistent.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JobSkills", x => new { x.JobsId, x.SkillsId });
+                    table.PrimaryKey("PK_JobSkill", x => new { x.JobsId, x.SkillsId });
                     table.ForeignKey(
-                        name: "FK_JobSkills_Jobs_JobsId",
+                        name: "FK_JobSkill_Jobs_JobsId",
                         column: x => x.JobsId,
                         principalTable: "Jobs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_JobSkills_Skills_SkillsId",
+                        name: "FK_JobSkill_Skills_SkillsId",
                         column: x => x.SkillsId,
                         principalTable: "Skills",
                         principalColumn: "Id",
@@ -98,15 +97,15 @@ namespace TechJobs6Persistent.Migrations
                 column: "EmployerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_JobSkills_SkillsId",
-                table: "JobSkills",
+                name: "IX_JobSkill_SkillsId",
+                table: "JobSkill",
                 column: "SkillsId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "JobSkills");
+                name: "JobSkill");
 
             migrationBuilder.DropTable(
                 name: "Jobs");
