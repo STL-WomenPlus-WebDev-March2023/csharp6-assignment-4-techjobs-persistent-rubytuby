@@ -26,7 +26,20 @@ namespace TechJobs6Persistent.ViewModels
                 });
             }
         } 
-
+        
+        public void SetEmployers(List<Employer> employers)
+        {
+            Employers = new List<SelectListItem>();
+            
+            foreach (var employer in employers)
+            {
+                Employers.Add(new SelectListItem
+                {
+                    Value = employer.Id.ToString(),
+                    Text = employer.Name,
+                });
+            }
+        }
         public AddJobViewModel()
         {
         }
