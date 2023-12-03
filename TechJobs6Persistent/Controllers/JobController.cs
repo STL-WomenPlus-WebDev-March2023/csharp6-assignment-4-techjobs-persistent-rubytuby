@@ -38,6 +38,7 @@ namespace TechJobs6Persistent.Controllers
             return View(addJobViewModel);
         }
 
+        //something here causes the list of employers to vanish if validation is not passed and page is refreshed. not sure how to fix this.
         [HttpPost]
         public IActionResult Add(AddJobViewModel addJobViewModel)
         {
@@ -46,12 +47,12 @@ namespace TechJobs6Persistent.Controllers
                 Job newJob = new Job
                 {
                     Name = addJobViewModel.JobName,
-                    EmployerId = addJobViewModel.EmployerId
+                    EmployerId = addJobViewModel.EmployerId,
                 };
                 context.Jobs.Add(newJob);
-                context.SaveChanges();
+                context.SaveChanges();  
 
-                return Redirect("/Jobs");
+                return Redirect("/Job");
             }
             return View(addJobViewModel);
         }
